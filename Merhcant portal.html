@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurelia Fine Jewellery | Luxury Handcrafted Collection</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cormorant Garamond & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aurelia-beige': '#FAF7F2',
+                        'aurelia-sand': '#F2ECE4',
+                        'aurelia-gold': '#D4AF37',
+                        'aurelia-rosegold': '#E8C3B9',
+                        'aurelia-champagne': '#C5A059',
+                        'aurelia-emerald': '#0F2C23',
+                        'aurelia-slate': '#1A1A1A',
+                        'aurelia-muted': '#7A7A7A'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF7F2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C5A059;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+        
+        /* Smooth View Switching */
+        .page-view {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-aurelia-beige text-aurelia-slate font-sans antialiased selection:bg-aurelia-champagne selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-aurelia-emerald text-aurelia-beige text-xs py-2 px-4 text-center tracking-widest uppercase font-medium flex justify-between items-center max-w-full">
+        <span class="hidden sm:inline">Complimentary Worldwide Insured Shipping on All Orders Over $250</span>
+        <span class="sm:hidden mx-auto">Complimentary Insured Shipping Over $250</span>
+        <button onclick="toggleAdminMode()" class="bg-aurelia-champagne hover:bg-white hover:text-aurelia-emerald text-aurelia-emerald font-bold text-[10px] px-3 py-1 rounded transition-colors uppercase tracking-wider flex items-center space-x-1 shrink-0 ml-2">
+            <i class="fa-solid fa-sliders text-xs"></i>
+            <span id="adminToggleText">Merchant Admin</span>
+        </button>
+    </div>
+
+    <!-- MAIN PUBLIC STOREFRONT VIEW -->
+    <div id="storefrontView" class="page-view">
+        <!-- Navigation Header -->
+        <header class="sticky top-0 z-40 bg-aurelia-beige/90 backdrop-blur-md border-b border-aurelia-champagne/20 transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20">
+                    <!-- Mobile Menu Toggle Button -->
+                    <button id="mobileMenuBtn" class="lg:hidden text-aurelia-emerald hover:text-aurelia-champagne focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+
+                    <!-- Brand Logo -->
+                    <div class="flex-1 lg:flex-none text-center lg:text-left">
+                        <a href="#" class="inline-block">
+                            <span id="storeLogoName" class="font-serif text-2xl sm:text-3xl tracking-widest text-aurelia-emerald font-semibold uppercase">AURELIA</span>
+                            <span id="storeLogoTagline" class="block text-[9px] tracking-[0.3em] uppercase text-aurelia-champagne font-sans font-light -mt-1">Fine Jewellery</span>
+                        </a>
+                    </div>
+
+                    <!-- Desktop Navigation Links -->
+                    <nav class="hidden lg:flex space-x-8 text-xs font-medium tracking-widest uppercase text-aurelia-slate">
+                        <a href="#collections" class="hover:text-aurelia-champagne transition-colors duration-200 py-1 border-b-2 border-transparent hover:border-aurelia-champagne">Collections</a>
+                        <a href="#custom" class="hover:text-aurelia-champagne transition-colors duration-200 py-1 border-b-2 border-transparent hover:border-aurelia-champagne">Custom Design</a>
+                        <a href="#about" class="hover:text-aurelia-champagne transition-colors duration-200 py-1 border-b-2 border-transparent hover:border-aurelia-champagne">Craftsmanship</a>
+                        <a href="#reviews" class="hover:text-aurelia-champagne transition-colors duration-200 py-1 border-b-2 border-transparent hover:border-aurelia-champagne">Reviews</a>
+                        <button onclick="openModal('guideModal')" class="hover:text-aurelia-champagne transition-colors duration-200 py-1 border-b-2 border-transparent hover:border-aurelia-champagne uppercase">Size & Care</button>
+                    </nav>
+
+                    <!-- Header Actions -->
+                    <div class="flex items-center space-x-4">
+                        <button id="openBagBtn" class="relative p-2 text-aurelia-emerald hover:text-aurelia-champagne transition-colors duration-200 focus:outline-none">
+                            <i class="fa-solid fa-bag-shopping text-xl"></i>
+                            <span id="bagBadge" class="absolute -top-1 -right-1 bg-aurelia-champagne text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold shadow-sm transition-transform duration-300 scale-100">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Drawer -->
+            <div id="mobileMenu" class="hidden lg:hidden bg-aurelia-beige border-b border-aurelia-champagne/20 px-6 py-6 transition-all duration-300">
+                <div class="flex flex-col space-y-4 text-sm font-medium tracking-widest uppercase">
+                    <a href="#collections" onclick="closeMobileMenu()" class="text-aurelia-slate hover:text-aurelia-champagne py-2 border-b border-aurelia-sand">Collections</a>
+                    <a href="#custom" onclick="closeMobileMenu()" class="text-aurelia-slate hover:text-aurelia-champagne py-2 border-b border-aurelia-sand">Custom Design</a>
+                    <a href="#about" onclick="closeMobileMenu()" class="text-aurelia-slate hover:text-aurelia-champagne py-2 border-b border-aurelia-sand">Craftsmanship</a>
+                    <a href="#reviews" onclick="closeMobileMenu()" class="text-aurelia-slate hover:text-aurelia-champagne py-2 border-b border-aurelia-sand">Reviews</a>
+                    <button onclick="openModal('guideModal'); closeMobileMenu();" class="text-left text-aurelia-slate hover:text-aurelia-champagne py-2 border-b border-aurelia-sand uppercase">Size & Care Guide</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="relative min-h-[80vh] flex items-center justify-center bg-aurelia-sand/40 overflow-hidden py-16 lg:py-0">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=2000&auto=format&fit=crop" alt="Fine Jewelry Background" class="w-full h-full object-cover object-center opacity-25 filter contrast-105">
+                <div class="absolute inset-0 bg-gradient-to-r from-aurelia-beige via-aurelia-beige/80 to-transparent"></div>
+            </div>
+
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="max-w-2xl">
+                    <span class="inline-block text-aurelia-champagne font-sans text-xs tracking-[0.3em] uppercase mb-4 font-semibold">Artisan Handcrafted Luxury</span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-light text-aurelia-emerald leading-tight mb-6">
+                        Timeless Elegance, <br>
+                        <span class="italic font-normal">Sustainably Crafted</span>
+                    </h1>
+                    <p class="text-aurelia-slate/80 text-base sm:text-lg mb-8 leading-relaxed font-light">
+                        Discover delicate fine jewellery designed to celebrate life's most precious moments. Hand-cast in solid gold, platinum, and ethically sourced gemstones.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#collections" class="inline-flex items-center justify-center px-8 py-4 bg-aurelia-emerald text-aurelia-beige text-xs font-semibold tracking-widest uppercase rounded hover:bg-aurelia-champagne transition-all duration-300 shadow-md">
+                            Explore Collection
+                        </a>
+                        <a href="#custom" class="inline-flex items-center justify-center px-8 py-4 border border-aurelia-emerald text-aurelia-emerald text-xs font-semibold tracking-widest uppercase rounded hover:bg-aurelia-emerald hover:text-aurelia-beige transition-all duration-300">
+                            Bespoke Consultation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Value Highlights -->
+        <section class="bg-aurelia-beige border-y border-aurelia-champagne/15 py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    <div class="p-2">
+                        <i class="fa-solid fa-gem text-aurelia-champagne text-2xl mb-2"></i>
+                        <h4 class="font-serif text-base text-aurelia-emerald font-semibold">Conflict-Free Gems</h4>
+                        <p class="text-xs text-aurelia-muted mt-1 font-light">100% ethically sourced</p>
+                    </div>
+                    <div class="p-2">
+                        <i class="fa-solid fa-hammer text-aurelia-champagne text-2xl mb-2"></i>
+                        <h4 class="font-serif text-base text-aurelia-emerald font-semibold">Handcrafted Studio</h4>
+                        <p class="text-xs text-aurelia-muted mt-1 font-light">Master jeweller hand-cast</p>
+                    </div>
+                    <div class="p-2">
+                        <i class="fa-solid fa-box-open text-aurelia-champagne text-2xl mb-2"></i>
+                        <h4 class="font-serif text-base text-aurelia-emerald font-semibold">Eco Luxe Packaging</h4>
+                        <p class="text-xs text-aurelia-muted mt-1 font-light">Signature presentation boxes</p>
+                    </div>
+                    <div class="p-2">
+                        <i class="fa-solid fa-shield-halved text-aurelia-champagne text-2xl mb-2"></i>
+                        <h4 class="font-serif text-base text-aurelia-emerald font-semibold">Lifetime Guarantee</h4>
+                        <p class="text-xs text-aurelia-muted mt-1 font-light">Warranty & cleaning service</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Product Catalog -->
+        <section id="collections" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <span class="text-aurelia-champagne text-xs font-semibold tracking-widest uppercase">Curated Catalog</span>
+                <h2 class="text-3xl sm:text-4xl font-serif text-aurelia-emerald mt-2 mb-4">Our Signature Pieces</h2>
+                <div class="w-16 h-0.5 bg-aurelia-champagne mx-auto"></div>
+            </div>
+
+            <!-- Category Filter Controls -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-12 text-xs font-medium tracking-wider uppercase" id="filterContainer">
+                <button class="filter-btn px-5 py-2.5 rounded-full transition-all duration-200 border border-aurelia-champagne bg-aurelia-champagne text-white shadow-sm" data-category="all">All Items</button>
+                <button class="filter-btn px-5 py-2.5 rounded-full transition-all duration-200 border border-aurelia-sand bg-white text-aurelia-slate hover:border-aurelia-champagne" data-category="rings">Rings</button>
+                <button class="filter-btn px-5 py-2.5 rounded-full transition-all duration-200 border border-aurelia-sand bg-white text-aurelia-slate hover:border-aurelia-champagne" data-category="necklaces">Necklaces</button>
+                <button class="filter-btn px-5 py-2.5 rounded-full transition-all duration-200 border border-aurelia-sand bg-white text-aurelia-slate hover:border-aurelia-champagne" data-category="earrings">Earrings</button>
+                <button class="filter-btn px-5 py-2.5 rounded-full transition-all duration-200 border border-aurelia-sand bg-white text-aurelia-slate hover:border-aurelia-champagne" data-category="bracelets">Bracelets</button>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Product items rendered dynamically via JS -->
+            </div>
+        </section>
+
+        <!-- Custom Jewellery Design Form -->
+        <section id="custom" class="py-20 bg-aurelia-sand/40 border-y border-aurelia-champagne/20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <span class="text-aurelia-champagne text-xs font-semibold tracking-widest uppercase">Bespoke Atelier</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif text-aurelia-emerald mt-2 mb-4">Design Your Own Jewellery</h2>
+                    <p class="text-aurelia-slate/70 text-sm max-w-lg mx-auto font-light">
+                        Collaborate directly with our master jewellers to craft a unique heirloom piece tailored to your exact vision.
+                    </p>
+                </div>
+
+                <form id="customDesignForm" class="bg-white p-6 sm:p-10 rounded-xl shadow-lg border border-aurelia-sand">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-aurelia-slate mb-2">Jewellery Type *</label>
+                            <select id="customType" required class="w-full bg-aurelia-beige border border-aurelia-sand rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-aurelia-champagne">
+                                <option value="" disabled selected>Select Item Type</option>
+                                <option value="Engagement Ring">Engagement Ring / Ring</option>
+                                <option value="Pendant Necklace">Pendant Necklace</option>
+                                <option value="Custom Earrings">Custom Earrings</option>
+                                <option value="Bespoke Bracelet">Bespoke Bracelet</option>
+                                <option value="Other / Unique">Other Unique Piece</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-aurelia-slate mb-2">Precious Metal *</label>
+                            <select id="customMetal" required class="w-full bg-aurelia-beige border border-aurelia-sand rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-aurelia-champagne">
+                                <option value="" disabled selected>Select Metal</option>
+                                <option value="18k Yellow Gold">18k Yellow Gold</option>
+                                <option value="18k Rose Gold">18k Rose Gold</option>
+                                <option value="18k White Gold">18k White Gold</option>
+                                <option value="Platinum 950">Platinum 950</option>
+                                <option value="925 Sterling Silver">925 Sterling Silver</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-aurelia-slate mb-2">Primary Gemstone</label>
+                            <select id="customGemstone" class="w-full bg-aurelia-beige border border-aurelia-sand rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-aurelia-champagne">
+                                <option value="Natural Diamond">Natural Diamond</option>
+                                <option value="Lab-Grown Diamond">Lab-Grown Diamond</option>
+                                <option value="Natural Emerald">Natural Emerald</option>
+                                <option value="Royal Blue Sapphire">Royal Blue Sapphire</option>
+                                <option value="Morganite / Rose Quartz">Morganite / Rose Quartz</option>
+                                <option value="No Gemstone / Metal Only">No Gemstone (Metal Only)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-aurelia-slate mb-2">Budget Range (USD)</label>
+                            <select id="customBudget" class="w-full bg-aurelia-beige border border-aurelia-sand rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-aurelia-champagne">
+                                <option value="$300 - $800">$300 - $800</option>
+                                <option value="$800 - $1,500">$800 - $1,500</option>
+                                <option value="$1,500 - $3,000">$1,500 - $3,000</option>
+                                <option value="$3,000+">$3,000+</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-aurelia-slate mb-2">Design Vision & Notes *</label>
+                        <textarea id="customNotes" rows="4" required placeholder="Describe your design idea, inspirational themes, ring size if known, or any special requests..." class="w-full bg-aurelia-beige border border-aurelia-sand rounded-lg p-4 text-sm focus:outline-none focus:border-aurelia-champagne"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-aurelia-slate mb-2">Your Name *</label>
+                            <input type="text" id="customName" required placeholder="Full Name" class="w-full bg-aurelia-beige border border-aurelia-sand rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-aurelia-champagne">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-aurelia-slate mb-2">Contact Info (Phone/Email) *</label>
+                            <input type="text" id="customContact" required placeholder="Email or WhatsApp Number" class="w-full bg-aurelia-beige border border-aurelia-sand rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-aurelia-champagne">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-aurelia-emerald hover:bg-aurelia-champagne text-white font-medium text-xs uppercase tracking-widest py-4 rounded-lg transition-colors duration-300 shadow-md">
+                        Submit Consultation Request via WhatsApp
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Brand Craftsmanship Section -->
+        <section id="about" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="relative">
+                    <div class="rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?q=80&w=1200&auto=format&fit=crop" alt="Jewellery Craftsmanship Artisan" class="w-full h-[450px] object-cover rounded-2xl">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-aurelia-beige p-6 rounded-xl shadow-xl border border-aurelia-champagne/30 hidden sm:block max-w-xs">
+                        <p class="font-serif italic text-aurelia-emerald text-base">"Every piece carries a story of passion, precision, and conscious creation."</p>
+                        <span class="block text-[10px] tracking-widest uppercase text-aurelia-champagne font-semibold mt-2">— Founder & Master Goldsmith</span>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-aurelia-champagne text-xs font-semibold tracking-widest uppercase">Our Heritage</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif text-aurelia-emerald mt-2 mb-6 leading-tight">Master Craftsmanship Meets Ethical Integrity</h2>
+                    
+                    <p class="text-aurelia-slate/80 text-sm leading-relaxed mb-6 font-light">
+                        Founded with a mission to redefine fine jewellery, Aurelia combines century-old casting techniques with modern, sustainable practices.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-aurelia-sand p-3 rounded-full text-aurelia-champagne shrink-0">
+                                <i class="fa-solid fa-leaf text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-lg font-semibold text-aurelia-emerald">Recycled Precious Metals</h3>
+                                <p class="text-xs text-aurelia-slate/70 mt-1 leading-relaxed">Cast exclusively in 100% recycled 18k solid gold and platinum to minimize environmental impact.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-aurelia-sand p-3 rounded-full text-aurelia-champagne shrink-0">
+                                <i class="fa-solid fa-gem text-base"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-lg font-semibold text-aurelia-emerald">Traceable Gemstones</h3>
+                                <p class="text-xs text-aurelia-slate/70 mt-1 leading-relaxed">Every diamond and gemstone is ethically sourced with verified origin credentials.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="reviews" class="py-20 bg-aurelia-sand/30 border-t border-aurelia-sand">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-xl mx-auto mb-16">
+                    <span class="text-aurelia-champagne text-xs font-semibold tracking-widest uppercase">Client Stories</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif text-aurelia-emerald mt-2 mb-4">Loved by Collectors</h2>
+                    <div class="w-16 h-0.5 bg-aurelia-champagne mx-auto"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-aurelia-sand">
+                        <div class="text-aurelia-champagne text-sm mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs sm:text-sm text-aurelia-slate/80 italic font-light mb-6 leading-relaxed">
+                            "The bespoke engagement ring Aurelia designed for us exceeded all expectations. The sapphire is mesmerizing!"
+                        </p>
+                        <div>
+                            <h4 class="font-serif font-semibold text-aurelia-emerald text-sm">Elena Rostova</h4>
+                            <span class="text-[10px] text-aurelia-muted uppercase tracking-wider">Verified Buyer — Custom Ring</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-aurelia-sand">
+                        <div class="text-aurelia-champagne text-sm mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs sm:text-sm text-aurelia-slate/80 italic font-light mb-6 leading-relaxed">
+                            "Purchased the Emerald Pendant as an anniversary gift. Packaging was magnificent and order was handled seamlessly!"
+                        </p>
+                        <div>
+                            <h4 class="font-serif font-semibold text-aurelia-emerald text-sm">Marcus Vance</h4>
+                            <span class="text-[10px] text-aurelia-muted uppercase tracking-wider">Verified Buyer — Emerald Pendant</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-xl shadow-sm border border-aurelia-sand">
+                        <div class="text-aurelia-champagne text-sm mb-4">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs sm:text-sm text-aurelia-slate/80 italic font-light mb-6 leading-relaxed">
+                            "Delicate, high-quality, and comfortable for daily wear. Knowing their gold is 100% recycled makes it even better."
+                        </p>
+                        <div>
+                            <h4 class="font-serif font-semibold text-aurelia-emerald text-sm">Sophia Chen</h4>
+                            <span class="text-[10px] text-aurelia-muted uppercase tracking-wider">Verified Buyer — Pearl Earrings</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-aurelia-emerald text-aurelia-beige pt-16 pb-8 border-t border-aurelia-champagne/20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                    <div class="space-y-4">
+                        <span class="font-serif text-2xl tracking-widest uppercase font-semibold text-white">AURELIA</span>
+                        <p class="text-xs text-aurelia-beige/70 leading-relaxed font-light">
+                            Handcrafted fine jewellery studio committed to ethical sourcing, sustainable metals, and timeless aesthetics.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-serif text-base font-semibold text-aurelia-champagne uppercase tracking-wider mb-4">Explore</h4>
+                        <ul class="space-y-2 text-xs font-light">
+                            <li><a href="#collections" class="hover:text-aurelia-champagne transition-colors">Featured Collection</a></li>
+                            <li><a href="#custom" class="hover:text-aurelia-champagne transition-colors">Bespoke Design Studio</a></li>
+                            <li><button onclick="openModal('guideModal')" class="hover:text-aurelia-champagne transition-colors">Ring Size Guide</button></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-serif text-base font-semibold text-aurelia-champagne uppercase tracking-wider mb-4">Atelier Contact</h4>
+                        <ul class="space-y-2 text-xs font-light text-aurelia-beige/80">
+                            <li><i class="fa-solid fa-envelope w-5 text-aurelia-champagne"></i> <span id="footerEmailDisplay">concierge@aureliafinejewellery.com</span></li>
+                            <li><i class="fa-solid fa-phone w-5 text-aurelia-champagne"></i> <span id="footerPhoneDisplay">+1 (800) 555-0199</span></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-serif text-base font-semibold text-aurelia-champagne uppercase tracking-wider mb-4">Merchant Portal</h4>
+                        <p class="text-xs text-aurelia-beige/70 font-light mb-4">Manage products, pricing, and view deployment blueprint.</p>
+                        <button onclick="toggleAdminMode()" class="w-full bg-aurelia-champagne text-aurelia-slate text-xs font-semibold uppercase tracking-widest py-2.5 rounded hover:bg-white transition-colors">
+                            Open Merchant Dashboard
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border-t border-aurelia-champagne/10 pt-8 text-center text-[11px] text-aurelia-beige/50 font-light">
+                    <p>&copy; 2026 Aurelia Fine Jewellery. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- BUILT-IN MERCHANT ADMIN / DASHBOARD VIEW -->
+    <div id="adminView" class="page-view hidden min-h-screen bg-slate-900 text-slate-100 p-4 sm:p-8">
+        <div class="max-w-7xl mx-auto space-y-8">
+            
+            <!-- Admin Top Header Bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-700">
+                <div>
+                    <div class="flex items-center space-x-3">
+                        <span class="bg-aurelia-champagne text-slate-900 font-bold text-xs uppercase px-2.5 py-1 rounded">Store Admin</span>
+                        <h1 class="text-2xl sm:text-3xl font-serif text-white">Merchant Control Panel</h1>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Manage merchandise, store contact settings, and export catalog data.</p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="toggleAdminMode()" class="bg-aurelia-emerald hover:bg-emerald-600 text-white text-xs font-semibold px-4 py-2.5 rounded transition-colors uppercase tracking-wider flex items-center space-x-2">
+                        <i class="fa-solid fa-store"></i>
+                        <span>View Live Storefront</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Deployment & Monetization Instructions Banner -->
+            <div class="bg-slate-800/90 border border-aurelia-champagne/30 rounded-xl p-6 shadow-lg">
+                <div class="flex items-start space-x-4">
+                    <div class="bg-aurelia-champagne/20 text-aurelia-champagne p-3 rounded-lg text-xl shrink-0">
+                        <i class="fa-solid fa-rocket"></i>
+                    </div>
+                    <div class="space-y-3 flex-1">
+                        <h3 class="text-lg font-semibold text-white">How to Launch Publicly & Start Selling (Zero Extra Costs)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-300">
+                            <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-700">
+                                <span class="text-aurelia-champagne font-bold block mb-1">1. Hosting (Free Forever)</span>
+                                Upload this single <code class="bg-slate-800 text-amber-300 px-1 py-0.5 rounded">index.html</code> file to <strong>GitHub Pages</strong>, <strong>Vercel</strong>, or <strong>Netlify</strong> for $0/month with free SSL HTTPS.
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-700">
+                                <span class="text-aurelia-champagne font-bold block mb-1">2. Zero-Fee Checkout</span>
+                                Orders are delivered directly to your <strong>WhatsApp Business</strong> or <strong>Email Inbox</strong> with itemized breakdowns. No payment gateway fees!
+                            </div>
+                            <div class="bg-slate-900/60 p-4 rounded-lg border border-slate-700">
+                                <span class="text-aurelia-champagne font-bold block mb-1">3. Direct Payments</span>
+                                You can include your <strong>PayPal.me link</strong>, <strong>Stripe Payment Link</strong>, or Bank Transfer info directly in your WhatsApp order response.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Merchant Store Settings -->
+            <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+                <h3 class="text-base font-semibold text-white mb-4 flex items-center space-x-2">
+                    <i class="fa-solid fa-gears text-aurelia-champagne"></i>
+                    <span>Store Contact & WhatsApp Configuration</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">WhatsApp Phone Number *</label>
+                        <input type="text" id="merchantWhatsAppInput" placeholder="e.g. +1234567890" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                        <span class="text-[10px] text-slate-500">Include country code without spaces.</span>
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Concierge Email *</label>
+                        <input type="email" id="merchantEmailInput" placeholder="concierge@yourdomain.com" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Bank Transfer Info / Payment Link</label>
+                        <input type="text" id="merchantPaymentLinkInput" placeholder="e.g. Bank IBAN or paypal.me/yourbrand" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-end">
+                    <button onclick="saveStoreSettings()" class="bg-aurelia-champagne text-slate-900 hover:bg-white text-xs font-bold px-4 py-2 rounded transition-colors uppercase">
+                        Save Merchant Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Management Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Add / Edit Product Form -->
+                <div class="bg-slate-800 rounded-xl p-6 border border-slate-700 h-fit">
+                    <h3 class="text-base font-semibold text-white mb-4 flex items-center space-x-2" id="formTitle">
+                        <i class="fa-solid fa-circle-plus text-aurelia-champagne"></i>
+                        <span>Add New Merchandise</span>
+                    </h3>
+                    <form id="productForm" class="space-y-4">
+                        <input type="hidden" id="editProductId">
+                        
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Item Title *</label>
+                            <input type="text" id="prodTitle" required placeholder="e.g. Royal Emerald Cut Ring" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Category *</label>
+                                <select id="prodCategory" required class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                                    <option value="rings">Rings</option>
+                                    <option value="necklaces">Necklaces</option>
+                                    <option value="earrings">Earrings</option>
+                                    <option value="bracelets">Bracelets</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Price ($ USD) *</label>
+                                <input type="number" id="prodPrice" required step="1" min="0" placeholder="1250" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Metal Specs</label>
+                                <input type="text" id="prodMetal" placeholder="18k Yellow Gold" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Gemstone Specs</label>
+                                <input type="text" id="prodGemstone" placeholder="1.5ct Natural Emerald" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Image URL *</label>
+                            <input type="url" id="prodImage" required placeholder="https://images.unsplash.com/..." class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Badge Tag</label>
+                            <select id="prodBadge" class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne">
+                                <option value="">None</option>
+                                <option value="Bestseller">Bestseller</option>
+                                <option value="New Arrival">New Arrival</option>
+                                <option value="Bespoke Choice">Bespoke Choice</option>
+                                <option value="Limited Edition">Limited Edition</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Description</label>
+                            <textarea id="prodDescription" rows="3" placeholder="Craftsmanship story and dimensions..." class="w-full bg-slate-900 border border-slate-700 rounded p-2.5 text-xs text-white focus:outline-none focus:border-aurelia-champagne"></textarea>
+                        </div>
+
+                        <div class="flex gap-2 pt-2">
+                            <button type="submit" class="flex-1 bg-aurelia-champagne hover:bg-white text-slate-900 text-xs font-bold py-3 rounded transition-colors uppercase tracking-wider">
+                                Save Product
+                            </button>
+                            <button type="button" onclick="resetForm()" class="px-4 bg-slate-700 hover:bg-slate-600 text-white text-xs py-3 rounded uppercase">
+                                Clear
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Live Inventory List & Data Export -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                            <h3 class="text-base font-semibold text-white flex items-center space-x-2">
+                                <i class="fa-solid fa-boxes-stacked text-aurelia-champagne"></i>
+                                <span>Current Merchandise (<span id="adminItemCount">0</span>)</span>
+                            </h3>
+                            
+                            <!-- Catalog Data Import/Export Actions -->
+                            <div class="flex items-center space-x-2">
+                                <button onclick="exportCatalogJSON()" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-3 py-1.5 rounded transition-colors flex items-center space-x-1">
+                                    <i class="fa-solid fa-download"></i>
+                                    <span>Export Catalog (JSON)</span>
+                                </button>
+                                <label class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-3 py-1.5 rounded transition-colors cursor-pointer flex items-center space-x-1">
+                                    <i class="fa-solid fa-upload"></i>
+                                    <span>Import JSON</span>
+                                    <input type="file" id="importJsonInput" accept=".json" class="hidden" onchange="importCatalogJSON(event)">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs text-slate-300">
+                                <thead>
+                                    <tr class="bg-slate-900/80 text-aurelia-champagne uppercase font-serif">
+                                        <th class="p-3">Item</th>
+                                        <th class="p-3">Category</th>
+                                        <th class="p-3">Price</th>
+                                        <th class="p-3">Tag</th>
+                                        <th class="p-3 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminProductTable" class="divide-y divide-slate-700/60">
+                                    <!-- Dynamic Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SHOPPING BAG DRAWER -->
+    <div id="bagDrawer" class="fixed inset-0 z-50 overflow-hidden pointer-events-none transition-opacity duration-300 opacity-0">
+        <div id="bagBackdrop" class="absolute inset-0 bg-aurelia-slate/50 backdrop-blur-sm pointer-events-auto transition-opacity duration-300"></div>
+
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div id="bagPanel" class="w-screen max-w-md bg-aurelia-beige pointer-events-auto shadow-2xl flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out">
+                
+                <div class="p-6 border-b border-aurelia-sand flex items-center justify-between">
+                    <h2 class="font-serif text-xl font-semibold text-aurelia-emerald">Your Selection Bag</h2>
+                    <button id="closeBagBtn" class="text-aurelia-slate hover:text-aurelia-champagne p-2">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Free Shipping Progress -->
+                <div class="px-6 py-4 bg-aurelia-sand/50 border-b border-aurelia-sand">
+                    <div class="flex justify-between text-xs font-medium mb-2">
+                        <span id="shippingProgressText" class="text-aurelia-slate">Free Worldwide Shipping</span>
+                        <span id="shippingTarget" class="text-aurelia-champagne font-semibold">$250</span>
+                    </div>
+                    <div class="w-full bg-aurelia-sand rounded-full h-1.5 overflow-hidden">
+                        <div id="shippingProgressBar" class="bg-aurelia-champagne h-1.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Items Container -->
+                <div id="bagItemsContainer" class="flex-1 overflow-y-auto p-6 space-y-6">
+                    <!-- Dynamic Cart Items Rendered Here -->
+                </div>
+
+                <!-- Drawer Checkout Action Options -->
+                <div class="p-6 border-t border-aurelia-sand bg-white space-y-4">
+                    <div class="flex justify-between text-sm font-semibold text-aurelia-emerald">
+                        <span>Estimated Total</span>
+                        <span id="bagSubtotal" class="font-serif text-lg">$0.00</span>
+                    </div>
+                    
+                    <div class="space-y-2 pt-2">
+                        <button onclick="sendOrderViaWhatsApp()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white py-3.5 rounded text-xs font-medium uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors shadow-sm">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            <span>Checkout via WhatsApp</span>
+                        </button>
+                        <button onclick="sendOrderViaEmail()" class="w-full bg-aurelia-emerald hover:bg-aurelia-champagne text-white py-3.5 rounded text-xs font-medium uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors shadow-sm">
+                            <i class="fa-solid fa-envelope text-xs"></i>
+                            <span>Request Quote via Email</span>
+                        </button>
+                        <button onclick="toggleBankDetails()" class="w-full border border-aurelia-sand hover:bg-aurelia-beige text-aurelia-slate py-2.5 rounded text-[11px] font-medium uppercase tracking-wider transition-colors">
+                            <i class="fa-solid fa-building-columns text-xs mr-1"></i> Bank Transfer / Wire Instructions
+                        </button>
+                    </div>
+
+                    <div id="bankDetailsBox" class="hidden p-3 bg-aurelia-sand/40 border border-aurelia-sand rounded text-xs space-y-1 text-aurelia-slate/80">
+                        <p class="font-semibold text-aurelia-emerald">Direct Payment Account:</p>
+                        <p id="bankAccountDisplay">Contact concierge for bank routing and IBAN details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUICK VIEW MODAL -->
+    <div id="quickViewModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-aurelia-slate/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border border-aurelia-sand relative transform scale-95 transition-transform duration-300" id="quickViewCard">
+            <button onclick="closeModal('quickViewModal')" class="absolute top-4 right-4 z-10 bg-white/80 hover:bg-white text-aurelia-slate w-9 h-9 rounded-full flex items-center justify-center shadow-md">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="quickViewContent" class="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Content injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- RING SIZE & CARE GUIDE MODAL -->
+    <div id="guideModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-aurelia-slate/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-10 shadow-2xl border border-aurelia-sand relative">
+            <button onclick="closeModal('guideModal')" class="absolute top-4 right-4 text-aurelia-slate hover:text-aurelia-champagne p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="text-center mb-8">
+                <span class="text-aurelia-champagne text-xs font-semibold tracking-widest uppercase">Expert Assistance</span>
+                <h2 class="text-2xl sm:text-3xl font-serif text-aurelia-emerald mt-1">Ring Size & Jewellery Care Guide</h2>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex border-b border-aurelia-sand mb-6">
+                <button id="tabSizeBtn" onclick="switchGuideTab('size')" class="flex-1 py-3 text-xs font-semibold uppercase tracking-wider border-b-2 border-aurelia-champagne text-aurelia-emerald">Ring Size Conversion</button>
+                <button id="tabCareBtn" onclick="switchGuideTab('care')" class="flex-1 py-3 text-xs font-semibold uppercase tracking-wider border-b-2 border-transparent text-aurelia-muted hover:text-aurelia-emerald">Fine Care Instructions</button>
+            </div>
+
+            <!-- Size Chart -->
+            <div id="guideSizeContent" class="space-y-4">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-aurelia-slate border-collapse">
+                        <thead>
+                            <tr class="bg-aurelia-sand text-aurelia-emerald font-serif">
+                                <th class="p-3 border">US Size</th>
+                                <th class="p-3 border">UK Size</th>
+                                <th class="p-3 border">EU Size</th>
+                                <th class="p-3 border">Inside Diameter (mm)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-aurelia-sand">
+                            <tr><td class="p-2.5 border">5.0</td><td class="p-2.5 border">J 1/2</td><td class="p-2.5 border">49</td><td class="p-2.5 border">15.7 mm</td></tr>
+                            <tr><td class="p-2.5 border">6.0</td><td class="p-2.5 border">L 1/2</td><td class="p-2.5 border">52</td><td class="p-2.5 border">16.5 mm</td></tr>
+                            <tr><td class="p-2.5 border">7.0</td><td class="p-2.5 border">N 1/2</td><td class="p-2.5 border">54</td><td class="p-2.5 border">17.3 mm</td></tr>
+                            <tr><td class="p-2.5 border">8.0</td><td class="p-2.5 border">P 1/2</td><td class="p-2.5 border">57</td><td class="p-2.5 border">18.2 mm</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Care Instructions -->
+            <div id="guideCareContent" class="space-y-4 hidden">
+                <div class="space-y-3 text-xs text-aurelia-slate/80">
+                    <div class="p-4 bg-aurelia-beige rounded-lg">
+                        <h4 class="font-serif font-semibold text-aurelia-emerald text-sm mb-1">1. Daily Maintenance</h4>
+                        <p>Remove fine jewellery before swimming, exercising, or applying lotions and perfumes to preserve metal sheen and gemstone clarity.</p>
+                    </div>
+                    <div class="p-4 bg-aurelia-beige rounded-lg">
+                        <h4 class="font-serif font-semibold text-aurelia-emerald text-sm mb-1">2. Gentle Cleaning</h4>
+                        <p>Soak gold and diamond pieces in warm water with mild dish soap for 10 minutes. Gently brush with a soft-bristled toothbrush.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- APPLICATION JAVASCRIPT -->
+    <script>
+        // Default Sample Merchandise Database
+        const initialProducts = [
+            {
+                id: 'aur-01',
+                title: 'Solitaire Emerald Cut Ring',
+                category: 'rings',
+                price: 1250,
+                metal: '18k Yellow Gold',
+                gemstone: '1.5ct Natural Emerald',
+                badge: 'Bestseller',
+                image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=800&auto=format&fit=crop',
+                description: 'An exquisite emerald-cut centerpiece framed in an ultra-slim 18k gold band for timeless hand-tailored elegance.'
+            },
+            {
+                id: 'aur-02',
+                title: 'Celestial Pearl Drop Earrings',
+                category: 'earrings',
+                price: 480,
+                metal: '18k Rose Gold',
+                gemstone: 'Freshwater Baroque Pearls',
+                badge: 'New Arrival',
+                image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800&auto=format&fit=crop',
+                description: 'Luminous baroque freshwater pearls suspended from delicate rose gold huggie hoops.'
+            },
+            {
+                id: 'aur-03',
+                title: 'Serpentine Diamond Choker',
+                category: 'necklaces',
+                price: 2100,
+                metal: 'Platinum 950',
+                gemstone: '0.85ct Diamond Accent',
+                badge: 'Bespoke Choice',
+                image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800&auto=format&fit=crop',
+                description: 'Sleek flexible platinum links featuring a central brilliant-cut ethically sourced diamond.'
+            },
+            {
+                id: 'aur-04',
+                title: 'Minimalist Gold Chain Bracelet',
+                category: 'bracelets',
+                price: 350,
+                metal: '18k Yellow Gold',
+                gemstone: 'Solid Gold',
+                badge: '',
+                image: 'https://images.unsplash.com/photo-1611591475171-8e3b5e4063f0?q=80&w=800&auto=format&fit=crop',
+                description: 'Lightweight hand-polished paperclip links designed for effortless stacking.'
+            }
+        ];
+
+        // Store Settings State
+        let storeSettings = {
+            whatsApp: '1234567890',
+            email: 'concierge@aureliafinejewellery.com',
+            paymentLink: 'Bank Wire Transfer IBAN: US3948203948209384'
+        };
+
+        // Application State
+        let products = [];
+        let bag = [];
+        let currentFilter = 'all';
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStoreData();
+            renderProducts('all');
+            setupEventListeners();
+            updateBagUI();
+            renderAdminTable();
+            populateSettingsForm();
+        });
+
+        // LocalStorage Data Management
+        function loadStoreData() {
+            const savedProducts = localStorage.getItem('aurelia_products');
+            products = savedProducts ? JSON.parse(savedProducts) : initialProducts;
+
+            const savedSettings = localStorage.getItem('aurelia_settings');
+            if(savedSettings) {
+                storeSettings = JSON.parse(savedSettings);
+            }
+            updateStorefrontDisplayInfo();
+        }
+
+        function saveProductsToStorage() {
+            localStorage.setItem('aurelia_products', JSON.stringify(products));
+            renderProducts(currentFilter);
+            renderAdminTable();
+        }
+
+        function updateStorefrontDisplayInfo() {
+            document.getElementById('footerEmailDisplay').innerText = storeSettings.email;
+            document.getElementById('footerPhoneDisplay').innerText = storeSettings.whatsApp;
+            document.getElementById('bankAccountDisplay').innerText = storeSettings.paymentLink;
+        }
+
+        // Render Product Catalog to Public View
+        function renderProducts(categoryFilter) {
+            currentFilter = categoryFilter;
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            const filtered = categoryFilter === 'all' 
+                ? products 
+                : products.filter(p => p.category === categoryFilter);
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-aurelia-muted font-serif">No merchandise currently available in this category.</div>`;
+                return;
+            }
+
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-aurelia-sand flex flex-col justify-between relative';
+                
+                const badgeHTML = product.badge ? `<span class="absolute top-3 left-3 bg-aurelia-emerald text-aurelia-beige text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 rounded shadow z-10">${product.badge}</span>` : '';
+
+                card.innerHTML = `
+                    ${badgeHTML}
+                    <div class="relative overflow-hidden bg-aurelia-sand/30 aspect-square">
+                        <img src="${product.image}" alt="${product.title}" onerror="this.src='https://placehold.co/600x600/FAF7F2/1A1A1A?text=Jewellery'" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        <button onclick="openQuickView('${product.id}')" class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-white/90 hover:bg-aurelia-emerald hover:text-white text-aurelia-slate text-[11px] font-semibold tracking-wider uppercase px-4 py-2 rounded-full shadow-md transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] text-aurelia-champagne font-semibold uppercase tracking-widest">${product.metal || 'Fine Metal'}</span>
+                            <h3 class="font-serif text-lg text-aurelia-emerald font-semibold mt-0.5 mb-1 group-hover:text-aurelia-champagne transition-colors">${product.title}</h3>
+                            <p class="text-xs text-aurelia-muted font-light mb-3">${product.gemstone || 'Ethical Gemstone'}</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-aurelia-sand/60">
+                            <span class="font-serif text-base font-semibold text-aurelia-slate">$${Number(product.price).toLocaleString()}</span>
+                            <button onclick="addToBag('${product.id}')" class="bg-aurelia-beige hover:bg-aurelia-emerald hover:text-white text-aurelia-slate p-2.5 rounded-full transition-colors duration-300" title="Add to Bag">
+                                <i class="fa-solid fa-plus text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Setup UI Event Listeners
+        function setupEventListeners() {
+            // Category Buttons
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-aurelia-champagne', 'text-white');
+                        b.classList.add('bg-white', 'text-aurelia-slate');
+                    });
+                    btn.classList.add('bg-aurelia-champagne', 'text-white');
+                    btn.classList.remove('bg-white', 'text-aurelia-slate');
+
+                    renderProducts(btn.getAttribute('data-category'));
+                });
+            });
+
+            // Mobile Menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.toggle('hidden');
+            });
+
+            // Shopping Bag Drawer Handlers
+            document.getElementById('openBagBtn').addEventListener('click', openBagDrawer);
+            document.getElementById('closeBagBtn').addEventListener('click', closeBagDrawer);
+            document.getElementById('bagBackdrop').addEventListener('click', closeBagDrawer);
+
+            // Custom Order Form
+            document.getElementById('customDesignForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('customName').value;
+                const type = document.getElementById('customType').value;
+                const metal = document.getElementById('customMetal').value;
+                const gem = document.getElementById('customGemstone').value;
+                const budget = document.getElementById('customBudget').value;
+                const notes = document.getElementById('customNotes').value;
+
+                const msg = `*Bespoke Jewellery Inquiry*\n` +
+                            `Name: ${name}\nPiece: ${type}\nMetal: ${metal}\nGemstone: ${gem}\nBudget: ${budget}\nNotes: ${notes}`;
+
+                window.open(`https://wa.me/${storeSettings.whatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
+            });
+
+            // Admin Form Submit
+            document.getElementById('productForm').addEventListener('submit', handleProductSubmit);
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.add('hidden');
+        }
+
+        // Toggle Between Admin Dashboard & Public Storefront
+        function toggleAdminMode() {
+            const storeView = document.getElementById('storefrontView');
+            const adminView = document.getElementById('adminView');
+            const toggleBtnText = document.getElementById('adminToggleText');
+
+            if(adminView.classList.contains('hidden')) {
+                storeView.classList.add('hidden');
+                adminView.classList.remove('hidden');
+                toggleBtnText.innerText = "Exit Admin Portal";
+            } else {
+                adminView.classList.add('hidden');
+                storeView.classList.remove('hidden');
+                toggleBtnText.innerText = "Merchant Admin";
+            }
+        }
+
+        // Shopping Cart Functions
+        function addToBag(productId) {
+            const product = products.find(p => p.id === productId);
+            if(!product) return;
+
+            const existing = bag.find(i => i.id === productId);
+            if(existing) {
+                existing.quantity += 1;
+            } else {
+                bag.push({ ...product, quantity: 1 });
+            }
+
+            updateBagUI();
+            openBagDrawer();
+        }
+
+        function updateQuantity(productId, delta) {
+            const item = bag.find(i => i.id === productId);
+            if(item) {
+                item.quantity += delta;
+                if(item.quantity <= 0) {
+                    bag = bag.filter(i => i.id !== productId);
+                }
+            }
+            updateBagUI();
+        }
+
+        function updateBagUI() {
+            const badge = document.getElementById('bagBadge');
+            const container = document.getElementById('bagItemsContainer');
+            const subtotalEl = document.getElementById('bagSubtotal');
+            const progressBar = document.getElementById('shippingProgressBar');
+            const progressText = document.getElementById('shippingProgressText');
+
+            const totalCount = bag.reduce((sum, item) => sum + item.quantity, 0);
+            badge.innerText = totalCount;
+
+            if(bag.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <i class="fa-solid fa-bag-shopping text-4xl text-aurelia-sand mb-3"></i>
+                        <p class="text-sm font-serif text-aurelia-emerald">Your bag is currently empty</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = bag.map(item => `
+                    <div class="flex items-center space-x-4 pb-4 border-b border-aurelia-sand">
+                        <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded-lg border border-aurelia-sand">
+                        <div class="flex-1">
+                            <h4 class="font-serif font-semibold text-sm text-aurelia-emerald">${item.title}</h4>
+                            <p class="text-[10px] text-aurelia-muted">${item.metal || ''}</p>
+                            <span class="text-xs font-semibold text-aurelia-slate">$${Number(item.price).toLocaleString()}</span>
+                        </div>
+                        <div class="flex items-center border border-aurelia-sand rounded-lg overflow-hidden bg-white">
+                            <button onclick="updateQuantity('${item.id}', -1)" class="px-2 py-1 text-xs hover:bg-aurelia-sand">-</button>
+                            <span class="px-2 text-xs font-semibold">${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.id}', 1)" class="px-2 py-1 text-xs hover:bg-aurelia-sand">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = bag.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            subtotalEl.innerText = `$${subtotal.toLocaleString()}`;
+
+            const threshold = 250;
+            if(subtotal >= threshold) {
+                progressBar.style.width = '100%';
+                progressText.innerText = 'Free Worldwide Shipping Unlocked!';
+            } else {
+                const percent = (subtotal / threshold) * 100;
+                progressBar.style.width = `${percent}%`;
+                progressText.innerText = `Add $${threshold - subtotal} more for Free Shipping`;
+            }
+        }
+
+        function openBagDrawer() {
+            const drawer = document.getElementById('bagDrawer');
+            const panel = document.getElementById('bagPanel');
+            drawer.classList.remove('pointer-events-none', 'opacity-0');
+            drawer.classList.add('opacity-100');
+            panel.classList.remove('translate-x-full');
+        }
+
+        function closeBagDrawer() {
+            const drawer = document.getElementById('bagDrawer');
+            const panel = document.getElementById('bagPanel');
+            panel.classList.add('translate-x-full');
+            setTimeout(() => {
+                drawer.classList.add('pointer-events-none', 'opacity-0');
+                drawer.classList.remove('opacity-100');
+            }, 300);
+        }
+
+        function toggleBankDetails() {
+            document.getElementById('bankDetailsBox').classList.toggle('hidden');
+        }
+
+        // WhatsApp / Email Direct Order
+        function generateOrderText() {
+            if(bag.length === 0) return null;
+            let text = "Hello Aurelia Fine Jewellery,\nI would like to place an order for:\n\n";
+            bag.forEach((item, idx) => {
+                text += `${idx + 1}. ${item.title} (${item.metal || 'Standard'}) x${item.quantity} - $${(item.price * item.quantity).toLocaleString()}\n`;
+            });
+            const total = bag.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            text += `\nTotal: $${total.toLocaleString()}\nPlease advise payment link and delivery timeline.`;
+            return text;
+        }
+
+        function sendOrderViaWhatsApp() {
+            const text = generateOrderText();
+            if(!text) return alert('Your shopping bag is empty.');
+            window.open(`https://wa.me/${storeSettings.whatsApp}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function sendOrderViaEmail() {
+            const text = generateOrderText();
+            if(!text) return alert('Your shopping bag is empty.');
+            window.location.href = `mailto:${storeSettings.email}?subject=${encodeURIComponent("New Order Request")}&body=${encodeURIComponent(text)}`;
+        }
+
+        // Quick View Modal
+        function openQuickView(productId) {
+            const p = products.find(i => i.id === productId);
+            if(!p) return;
+
+            document.getElementById('quickViewContent').innerHTML = `
+                <div class="aspect-square bg-aurelia-sand/30 rounded-xl overflow-hidden">
+                    <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] text-aurelia-champagne font-semibold uppercase tracking-widest">${p.metal || ''}</span>
+                        <h3 class="font-serif text-2xl text-aurelia-emerald font-semibold mt-1 mb-2">${p.title}</h3>
+                        <span class="text-xl font-serif text-aurelia-slate font-semibold block mb-4">$${Number(p.price).toLocaleString()}</span>
+                        <p class="text-xs text-aurelia-slate/80 leading-relaxed mb-4">${p.description || 'Artisan handcrafted fine jewellery.'}</p>
+                    </div>
+                    <button onclick="addToBag('${p.id}'); closeModal('quickViewModal');" class="w-full bg-aurelia-emerald hover:bg-aurelia-champagne text-white py-3 rounded-lg text-xs font-semibold uppercase tracking-widest transition-colors">
+                        Add To Bag
+                    </button>
+                </div>
+            `;
+            openModal('quickViewModal');
+        }
+
+        function openModal(id) {
+            const m = document.getElementById(id);
+            m.classList.remove('hidden');
+            setTimeout(() => m.classList.remove('opacity-0'), 10);
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            m.classList.add('opacity-0');
+            setTimeout(() => m.classList.add('hidden'), 300);
+        }
+
+        function switchGuideTab(tab) {
+            if(tab === 'size') {
+                document.getElementById('guideSizeContent').classList.remove('hidden');
+                document.getElementById('guideCareContent').classList.add('hidden');
+            } else {
+                document.getElementById('guideCareContent').classList.remove('hidden');
+                document.getElementById('guideSizeContent').classList.add('hidden');
+            }
+        }
+
+        // ADMIN / MERCHANT CMS FUNCTIONS
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminProductTable');
+            document.getElementById('adminItemCount').innerText = products.length;
+            tbody.innerHTML = '';
+
+            products.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-800/50";
+                tr.innerHTML = `
+                    <td class="p-3 flex items-center space-x-3">
+                        <img src="${p.image}" class="w-10 h-10 object-cover rounded border border-slate-700">
+                        <div>
+                            <span class="font-semibold text-white block">${p.title}</span>
+                            <span class="text-[10px] text-slate-400">${p.metal || 'Standard'}</span>
+                        </div>
+                    </td>
+                    <td class="p-3 capitalize">${p.category}</td>
+                    <td class="p-3 font-semibold text-aurelia-champagne">$${Number(p.price).toLocaleString()}</td>
+                    <td class="p-3">${p.badge ? `<span class="bg-amber-500/20 text-amber-300 text-[10px] px-2 py-0.5 rounded border border-amber-500/30">${p.badge}</span>` : '-'}</td>
+                    <td class="p-3 text-right space-x-2">
+                        <button onclick="editProduct('${p.id}')" class="text-blue-400 hover:text-blue-300 p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="deleteProduct('${p.id}')" class="text-rose-400 hover:text-rose-300 p-1"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function handleProductSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editProductId').value;
+
+            const productData = {
+                id: editId || 'aur-' + Date.now(),
+                title: document.getElementById('prodTitle').value,
+                category: document.getElementById('prodCategory').value,
+                price: parseFloat(document.getElementById('prodPrice').value),
+                metal: document.getElementById('prodMetal').value,
+                gemstone: document.getElementById('prodGemstone').value,
+                image: document.getElementById('prodImage').value,
+                badge: document.getElementById('prodBadge').value,
+                description: document.getElementById('prodDescription').value
+            };
+
+            if(editId) {
+                const idx = products.findIndex(p => p.id === editId);
+                if(idx !== -1) products[idx] = productData;
+            } else {
+                products.push(productData);
+            }
+
+            saveProductsToStorage();
+            resetForm();
+        }
+
+        function editProduct(id) {
+            const p = products.find(item => item.id === id);
+            if(!p) return;
+
+            document.getElementById('editProductId').value = p.id;
+            document.getElementById('prodTitle').value = p.title;
+            document.getElementById('prodCategory').value = p.category;
+            document.getElementById('prodPrice').value = p.price;
+            document.getElementById('prodMetal').value = p.metal || '';
+            document.getElementById('prodGemstone').value = p.gemstone || '';
+            document.getElementById('prodImage').value = p.image;
+            document.getElementById('prodBadge').value = p.badge || '';
+            document.getElementById('prodDescription').value = p.description || '';
+
+            document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-pen-to-square text-aurelia-champagne"></i> Edit Product`;
+        }
+
+        function deleteProduct(id) {
+            if(confirm('Are you sure you want to remove this merchandise item?')) {
+                products = products.filter(p => p.id !== id);
+                saveProductsToStorage();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('productForm').reset();
+            document.getElementById('editProductId').value = '';
+            document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-circle-plus text-aurelia-champagne"></i> Add New Merchandise`;
+        }
+
+        function populateSettingsForm() {
+            document.getElementById('merchantWhatsAppInput').value = storeSettings.whatsApp;
+            document.getElementById('merchantEmailInput').value = storeSettings.email;
+            document.getElementById('merchantPaymentLinkInput').value = storeSettings.paymentLink;
+        }
+
+        function saveStoreSettings() {
+            storeSettings = {
+                whatsApp: document.getElementById('merchantWhatsAppInput').value,
+                email: document.getElementById('merchantEmailInput').value,
+                paymentLink: document.getElementById('merchantPaymentLinkInput').value
+            };
+            localStorage.setItem('aurelia_settings', JSON.stringify(storeSettings));
+            updateStorefrontDisplayInfo();
+            alert('Merchant Settings Saved Successfully!');
+        }
+
+        // Export/Import JSON Catalog Data
+        function exportCatalogJSON() {
+            const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", jsonStr);
+            downloadAnchor.setAttribute("download", `aurelia_catalog_${Date.now()}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importCatalogJSON(event) {
+            const fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if(Array.isArray(imported)) {
+                        products = imported;
+                        saveProductsToStorage();
+                        alert('Catalog imported successfully!');
+                    }
+                } catch(err) {
+                    alert('Invalid JSON file format.');
+                }
+            };
+            fileReader.readAsText(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>
